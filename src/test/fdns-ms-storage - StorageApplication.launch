@@ -12,16 +12,17 @@
 <mapEntry key="OAUTH2_CLIENT_ID" value=""/>
 <mapEntry key="OAUTH2_CLIENT_SECRET" value=""/>
 <mapEntry key="OAUTH2_PROTECTED_URIS" value=""/>
+<mapEntry key="SSL_VERIFYING_DISABLE" value="true"/>
 <mapEntry key="STORAGE_FLUENTD_HOST" value="fluentd"/>
 <mapEntry key="STORAGE_FLUENTD_PORT" value="24224"/>
 <mapEntry key="STORAGE_PORT" value="8082"/>
 <mapEntry key="STORAGE_PROXY_HOSTNAME" value=""/>
 <mapEntry key="STORAGE_REPO_ACCESS_KEY" value="minio"/>
-<mapEntry key="STORAGE_REPO_SECRET_KEY" value="minio123"/>
 <mapEntry key="STORAGE_REPO_HOST" value="http://minio:9000"/>
-<mapEntry key="SSL_VERIFYING_DISABLE" value="true"/>
+<mapEntry key="STORAGE_REPO_SECRET_KEY" value="minio123"/>
 </mapAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenClassPathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="gov.cdc.foundation.StorageApplication"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="fdns-ms-storage"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenSourcePathProvider"/>

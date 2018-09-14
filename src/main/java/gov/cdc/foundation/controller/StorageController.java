@@ -375,7 +375,7 @@ public class StorageController {
 
 				client.putObject(name, objectId, file.getInputStream(), metadata);
 
-				return new ResponseEntity<>(mapper.readTree(TemplatingHelper.process(client.getObject(name, id)).toString()), HttpStatus.CREATED);
+				return new ResponseEntity<>(mapper.readTree(TemplatingHelper.process(client.getObject(name, objectId)).toString()), HttpStatus.CREATED);
 
 			}
 		} catch (Exception e) {
