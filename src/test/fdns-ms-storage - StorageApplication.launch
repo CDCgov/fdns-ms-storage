@@ -31,6 +31,7 @@
 <booleanAttribute key="spring.boot.ansi.console" value="false"/>
 <booleanAttribute key="spring.boot.dash.hidden" value="false"/>
 <booleanAttribute key="spring.boot.debug.enable" value="false"/>
+<booleanAttribute key="spring.boot.fast.startup" value="true"/>
 <booleanAttribute key="spring.boot.jmx.enable" value="true"/>
 <booleanAttribute key="spring.boot.lifecycle.enable" value="true"/>
 <stringAttribute key="spring.boot.lifecycle.termination.timeout" value="15000"/>

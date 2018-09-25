@@ -18,7 +18,7 @@ public class IndexController {
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	@ResponseBody
 	public String index() throws IOException {
-		return IOUtils.toString(IndexController.class.getResourceAsStream("/index.html"));
+		return IOUtils.toString(IndexController.class.getResourceAsStream("/index.html"), "UTF-8");
 	}
 
 }
