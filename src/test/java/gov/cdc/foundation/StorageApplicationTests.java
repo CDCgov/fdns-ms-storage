@@ -168,13 +168,13 @@ public class StorageApplicationTests {
 
 	public void createNode(String drawerName, String id) throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "Hello World".getBytes());
-		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload(baseUrlPath + "/node/" + drawerName + "?id=" + id);
+		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart(baseUrlPath + "/node/" + drawerName + "?id=" + id);
 		this.mvc.perform(builder.file(file)).andExpect(status().isCreated());
 	}
 
 	public void updateNode(String drawerName, String id) throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "Hello World Bis".getBytes());
-		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload(baseUrlPath + "/node/" + drawerName + "?id=" + id);
+		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart(baseUrlPath + "/node/" + drawerName + "?id=" + id);
 		builder.with(new RequestPostProcessor() {
 			@Override
 			public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {

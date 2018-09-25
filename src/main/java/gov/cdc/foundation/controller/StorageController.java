@@ -34,7 +34,6 @@ import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.cdc.foundation.helper.LoggerHelper;
@@ -118,7 +117,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			List<Bucket> buckets = ResourceHelper.getS3Client().listBuckets();
 			Bucket theBucket = null;
@@ -154,7 +153,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (client.doesBucketExist(name))
+			if (client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_ALREADY_EXISTS, name));
 			else {
 				return new ResponseEntity<>(mapper.readTree(TemplatingHelper.process(client.createBucket(name)).toString()), HttpStatus.CREATED);
@@ -183,7 +182,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			else {
 				client.deleteBucket(name);
@@ -217,7 +216,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			else {
 				JSONArray data = new JSONArray();
@@ -257,7 +256,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			else {
 				if (!client.doesObjectExist(name, id))
@@ -287,7 +286,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			else {
 				if (!client.doesObjectExist(name, id))
@@ -327,7 +326,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			else {
 				if (!client.doesObjectExist(name, id))
@@ -363,7 +362,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			else {
 				String objectId = getId(id, generateId, generateStruct);
@@ -419,9 +418,9 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_TARGET_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(sourceDrawerName))
+			if (!client.doesBucketExistV2(sourceDrawerName))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, sourceDrawerName));
-			if (!client.doesBucketExist(targetDrawerName))
+			if (!client.doesBucketExistV2(targetDrawerName))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, targetDrawerName));
 			if (!client.doesObjectExist(sourceDrawerName, sourceId))
 				throw new ServiceException(String.format(MessageHelper.ERROR_OBJECT_DONT_EXIST, sourceId, sourceDrawerName));
@@ -475,7 +474,7 @@ public class StorageController {
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
 			AmazonS3 client = ResourceHelper.getS3Client();
-			if (!client.doesBucketExist(name))
+			if (!client.doesBucketExistV2(name))
 				throw new ServiceException(String.format(MessageHelper.ERROR_DRAWER_DONT_EXIST, name));
 			else {
 				if (isImmutableDrawer(name))

@@ -5,13 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.amazonaws.ClientConfiguration;
-import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.S3ClientOptions;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Component
 public class ResourceHelper {
@@ -33,18 +32,20 @@ public class ResourceHelper {
 
 	public static AmazonS3 getS3Client() {
 		if (client == null) {
-
 			logger.debug("Connecting to S3...");
 
-			AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+			BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 			ClientConfiguration clientConfiguration = new ClientConfiguration();
 			clientConfiguration.setSignerOverride("AWSS3V4SignerType");
-			client = new AmazonS3Client(credentials, clientConfiguration);
-			Region usEast1 = Region.getRegion(Regions.US_EAST_1);
-			client.setRegion(usEast1);
-			client.setEndpoint(host);
-			final S3ClientOptions clientOptions = S3ClientOptions.builder().setPathStyleAccess(true).disableChunkedEncoding().build();
-			client.setS3ClientOptions(clientOptions);
+			
+			client = AmazonS3ClientBuilder
+				.standard()
+				.withClientConfiguration(clientConfiguration)
+				.withCredentials(new AWSStaticCredentialsProvider(credentials))
+				.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(host, Regions.US_EAST_1.toString()))
+				.enablePathStyleAccess()
+			    .disableChunkedEncoding()
+				.build();
 		}
 		return client;
 	}

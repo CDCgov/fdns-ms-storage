@@ -91,21 +91,21 @@ public class StorageApplicationErrorTests {
 	@Test
 	public void createNode1() throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "Hello World".getBytes());
-		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload(baseUrlPath + "/node/" + "notexists" + "?id=" + "notexists");
+		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart(baseUrlPath + "/node/" + "notexists" + "?id=" + "notexists");
 		this.mvc.perform(builder.file(file)).andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void createNode2() throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "Hello World".getBytes());
-		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload(baseUrlPath + "/node/" + "hl7" + "?id=");
+		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart(baseUrlPath + "/node/" + "hl7" + "?id=");
 		this.mvc.perform(builder.file(file)).andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateNode1() throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "Hello World Bis".getBytes());
-		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload(baseUrlPath + "/node/" + "notexists" + "?id=" + "notexists");
+		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart(baseUrlPath + "/node/" + "notexists" + "?id=" + "notexists");
 		builder.with(new RequestPostProcessor() {
 			@Override
 			public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
@@ -119,7 +119,7 @@ public class StorageApplicationErrorTests {
 	@Test
 	public void updateNode2() throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "Hello World Bis".getBytes());
-		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload(baseUrlPath + "/node/" + "hl7" + "?id=" + "notexists");
+		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart(baseUrlPath + "/node/" + "hl7" + "?id=" + "notexists");
 		builder.with(new RequestPostProcessor() {
 			@Override
 			public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
