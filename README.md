@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CDCgov/fdns-ms-storage.svg?branch=master)](https://travis-ci.org/CDCgov/fdns-ms-storage)
+
 # FDNS Storage Microservice
 This is the repository with the Storage layer for the Data Lake. This is the immutable layer.
 
