@@ -52,19 +52,19 @@ button:hover { background: #A7D5FF; outline: none; }
       <pre id="curl-cmd-1"><code>curl -X PUT \
   --header 'Content-Type: application/json' \
   --header 'Accept: application/json' \
-  '<span class='origin'>http://127.0.0.1:8082</span>drawer/test'</code></pre>
+  '<span class='origin'>http://127.0.0.1:8082</span>api/1.0/drawer/test'</code></pre>
       <p>Then, you can upload your file:</p>
       <button class="btn" data-clipboard-target="#curl-cmd-2">Copy</button>
       <pre id="curl-cmd-2"><code>curl -X POST \
   --header 'Content-Type: multipart/form-data' \
   --header 'Accept: application/json' \
   -F "file=@/Users/benc/Downloads/hello.txt" \
-  '<span class='origin'>http://127.0.0.1:8082</span>node/test?generateId=true'</code></pre>
+  '<span class='origin'>http://127.0.0.1:8082</span>api/1.0/node/test?generateId=true'</code></pre>
       <p>You can list all your files in your drawer:<p>
       <button class="btn" data-clipboard-target="#curl-cmd-3">Copy</button>
       <pre id="curl-cmd-3"><code>curl -X GET \
   --header 'Accept: application/json' \
-  '<span class='origin'>http://127.0.0.1:8082</span>drawer/nodes/test'</code></pre>
+  '<span class='origin'>http://127.0.0.1:8082</span>api/1.0/drawer/nodes/test'</code></pre>
       <p>And you should receive a JSON response like this one:</p>
       <pre><code>[
     {
@@ -84,7 +84,7 @@ button:hover { background: #A7D5FF; outline: none; }
       <button class="btn" data-clipboard-target="#curl-cmd-4">Copy</button>
       <pre id="curl-cmd-4"><code>curl -X GET \
   --header 'Accept: application/octet-stream' \
-  '<span class='origin'>http://127.0.0.1:8082</span>node/test/dl?id=45a5fef9-dab8-46a7-894c-64955443056c'</code></pre>
+  '<span class='origin'>http://127.0.0.1:8082</span>api/1.0/node/test/dl?id=45a5fef9-dab8-46a7-894c-64955443056c'</code></pre>
     </section>
   </div>
 <script>
