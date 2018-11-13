@@ -40,11 +40,11 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		Docket d = new Docket(DocumentationType.SWAGGER_2).select()
-			.apis(RequestHandlerSelectors.basePackage("gov.cdc.foundation.controller")).paths(PathSelectors.any())
-			.build()
-			.apiInfo(apiInfo())
-			.securitySchemes(Arrays.asList(apiKey()))
-			.securityContexts(Arrays.asList(securityContext()));
+				.apis(RequestHandlerSelectors.basePackage("gov.cdc.foundation.controller")).paths(PathSelectors.any())
+				.build()
+				.apiInfo(apiInfo())
+				.securitySchemes(Arrays.asList(apiKey()))
+				.securityContexts(Arrays.asList(securityContext()));
 		if (proxy != null)
 			d.host(proxy);
 		return d;
@@ -53,8 +53,8 @@ public class SwaggerConfig {
 	@Bean
 	public SecurityConfiguration security() {
 		return SecurityConfigurationBuilder.builder().scopeSeparator(",")
-			.additionalQueryStringParams(null)
-			.useBasicAuthenticationWithAccessCodeGrant(false).build();
+				.additionalQueryStringParams(null)
+				.useBasicAuthenticationWithAccessCodeGrant(false).build();
 	}
 
 	private SecurityContext securityContext() {
@@ -62,10 +62,10 @@ public class SwaggerConfig {
 	}
 
 	private List<SecurityReference> defaultAuth() {
-    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-    AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
 		authorizationScopes[0] = authorizationScope;
-    return Arrays.asList(new SecurityReference("apiKey", authorizationScopes));
+		return Arrays.asList(new SecurityReference("apiKey", authorizationScopes));
 	}
 
 	private ApiKey apiKey() {
@@ -74,8 +74,8 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("FDNS Storage Microservice")
-			.description("This microservice contains the Storage layer for the Data Lake. This is the immutable layer.")
-			.version(version + " / " + buildDate).build();
+				.description("This microservice contains the Storage layer for the Data Lake. This is the immutable layer.")
+				.version(version + " / " + buildDate).build();
 	}
 
 }
