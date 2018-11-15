@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  fluentd:
+    image: fluent/fluentd
+    ports:
+      - "24224:24224"
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    command: server ~/Downloads/minio
+  fdns-ms-storage:
+    image: cdcgov/fdns-ms-storage
+    ports:
+      - "8082:8082"
+    depends_on:
+      - fluentd
+      - minio
+    environment:
+      STORAGE_PORT: 8082
+      STORAGE_REPO_HOST: http://minio:9000
+      STORAGE_REPO_ACCESS_KEY: minio
+      STORAGE_REPO_SECRET_KEY: minio123
+      STORAGE_FLUENTD_HOST: fluentd
+      STORAGE_FLUENTD_PORT: 24224
