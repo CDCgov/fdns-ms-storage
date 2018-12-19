@@ -62,7 +62,6 @@ public class StorageController {
 	@ResponseBody
 	public ResponseEntity<?> index() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		
 		Map<String, Object> log = new HashMap<>();
 		
 		try {
@@ -77,15 +76,21 @@ public class StorageController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/drawer", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or #oauth2.hasScope('fdns.storage.*.read')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.GET,
+		value = "/drawer",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Get all drawers", notes = "Get all drawers.")
 	@ResponseBody
 	public ResponseEntity<?> getDrawers() {
-
 		JSONArray data = new JSONArray();
-
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_GETDRAWERS, null);
 
 		try {
@@ -101,18 +106,28 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.GET, value = "/drawer/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or (#name == 'public')"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.read'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.read')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.GET,
+		value = "/drawer/{name}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Get drawer", notes = "Get drawer")
 	@ResponseBody
-	public ResponseEntity<?> getDrawer(@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name) {
-
+	public ResponseEntity<?> getDrawer(
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_GETDRAWER, name);
 
 		try {
-
 			if (name == null || name.length() == 0)
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
@@ -137,18 +152,28 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.PUT, value = "/drawer/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or (#name == 'public')"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.create'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.create')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.PUT,
+		value = "/drawer/{name}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Create drawer", notes = "Create drawer")
 	@ResponseBody
-	public ResponseEntity<?> createDrawer(@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name) {
-
+	public ResponseEntity<?> createDrawer(
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_CREATEDRAWER, name);
 
 		try {
-
 			if (name == null || name.length() == 0)
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
@@ -166,14 +191,24 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.DELETE, value = "/drawer/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.delete'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.delete')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.DELETE,
+		value = "/drawer/{name}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Delete drawer", notes = "Delete drawer")
 	@ResponseBody
-	public ResponseEntity<?> deleteDrawer(@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name) {
-
+	public ResponseEntity<?> deleteDrawer(
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_DELETEDRAWER, name);
 
 		try {
@@ -200,18 +235,25 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or (#name == 'public')"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.read'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.read')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
 	@RequestMapping(method = RequestMethod.GET, value = "/drawer/nodes/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "List all nodes in a drawer", notes = "List all nodes in a drawer")
 	@ResponseBody
-	public ResponseEntity<?> listNodes(@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name, @ApiParam(value = "Prefix") @RequestParam(required = false) String prefix) {
-
+	public ResponseEntity<?> listNodes(
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name,
+		@ApiParam(value = "Prefix") @RequestParam(required = false) String prefix
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_LISTNODES, name);
 
 		try {
-
 			if (name == null || name.length() == 0)
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
@@ -240,18 +282,29 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.GET, value = "/node/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or (#name == 'public')"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.read'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.read')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.GET,
+		value = "/node/{name}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Get node", notes = "Get node")
 	@ResponseBody
-	public ResponseEntity<?> getNode(@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name, @ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id) {
-
+	public ResponseEntity<?> getNode(
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name,
+		@ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_GETNODE, name);
 
 		try {
-
 			if (name == null || name.length() == 0)
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
@@ -272,16 +325,30 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.GET, value = "/node/{name}/dl")
-	@ApiOperation(value = "Download node", notes = "Download node")
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or (#name == 'public')"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.read'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.read')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.GET,
+		value = "/node/{name}/dl"
+	)
+	@ApiOperation(
+		value = "Download node",
+		notes = "Download node"
+	)
 	@ResponseBody
-	public ResponseEntity<?> downloadNode(@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name, @ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id) {
-
+	public ResponseEntity<?> downloadNode(
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name,
+		@ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id
+	) {
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_DOWNLOADNODE, name);
 
 		try {
-
 			if (name == null || name.length() == 0)
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
@@ -310,18 +377,28 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.DELETE, value = "/node/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.delete'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.delete')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.DELETE,
+		value = "/node/{name}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Delete node", notes = "Delete node")
 	@ResponseBody
-	public ResponseEntity<?> deleteNode(@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name, @ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id) {
-
+	public ResponseEntity<?> deleteNode(
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name,
+		@ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_DELETENODE, name);
 
 		try {
-
 			if (name == null || name.length() == 0)
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
@@ -347,14 +424,33 @@ public class StorageController {
 		}
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.POST, value = "/node/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(value = "Create node", notes = "Create node")
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or (#name == 'public')"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.create'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.create')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.POST,
+		value = "/node/{name}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	@ApiOperation(
+		value = "Create node",
+		notes = "Create node"
+	)
 	@ResponseBody
-	public ResponseEntity<?> createNode(@RequestParam("file") MultipartFile file, @ApiParam(value = "Drawer name") @PathVariable(value = "name", required = true) String name, @ApiParam(value = "Node id") @RequestParam(value = "id", required = false) String id, @ApiParam(value = "Generate date/time structure if asked") @RequestParam(value = "generateStruct", defaultValue = "false", required = false) boolean generateStruct, @ApiParam(value = "Generate node id if asked") @RequestParam(value = "generateId", defaultValue = "false", required = false) boolean generateId, @ApiParam(value = "Replace if existing") @RequestParam(value = "replace", defaultValue = "false", required = false) boolean replace) {
-
+	public ResponseEntity<?> createNode(
+		@RequestParam("file") MultipartFile file,
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name", required = true) String name,
+		@ApiParam(value = "Node id") @RequestParam(value = "id", required = false) String id,
+		@ApiParam(value = "Generate date/time structure if asked") @RequestParam(value = "generateStruct", defaultValue = "false", required = false) boolean generateStruct,
+		@ApiParam(value = "Generate node id if asked") @RequestParam(value = "generateId", defaultValue = "false", required = false) boolean generateId,
+		@ApiParam(value = "Replace if existing") @RequestParam(value = "replace", defaultValue = "false", required = false) boolean replace
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_CREATENODE, name);
 
 		try {
@@ -401,14 +497,36 @@ public class StorageController {
 		return objectId;
 	}
 
-	@PreAuthorize("!@authz.isSecured() or (#oauth2.hasScope(#sourceDrawerName) and #oauth2.hasScope(#targetDrawerName)) or ((#sourceDrawerName == 'reporting') and (#targetDrawerName == 'reporting'))")
-	@RequestMapping(method = RequestMethod.PUT, value = "/node/copy/{source}/{target}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or (#name == 'public')"
+		+ " or (#oauth2.hasScope('fdns.storage.'.concat(#sourceDrawerName).concat('.read')) and #oauth2.hasScope('fdns.storage.'.concat(#targetDrawerName).concat('.create')))"
+		+ " or (#oauth2.hasScope('fdns.storage.'.concat(#sourceDrawerName).concat('.*')) and #oauth2.hasScope('fdns.storage.'.concat(#targetDrawerName).concat('.create')))"
+		+ " or (#oauth2.hasScope('fdns.storage.'.concat(#sourceDrawerName).concat('.read')) and #oauth2.hasScope('fdns.storage.'.concat(#targetDrawerName).concat('.*')))"
+		+ " or (#oauth2.hasScope('fdns.storage.'.concat(#sourceDrawerName).concat('.*')) and #oauth2.hasScope('fdns.storage.*.create'))"
+		+ " or (#oauth2.hasScope('fdns.storage.'.concat(#sourceDrawerName).concat('.read')) and #oauth2.hasScope('fdns.storage.*.create'))"
+		+ " or (#oauth2.hasScope('fdns.storage.*.read') and #oauth2.hasScope('fdns.storage.'.concat(#targetDrawerName).concat('.create')))"
+		+ " or (#oauth2.hasScope('fdns.storage.*.read') and #oauth2.hasScope('fdns.storage.'.concat(#targetDrawerName).concat('.*')))"
+		+ " or #oauth2.hasScope('fdns.storage.*.read')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.PUT,
+		value = "/node/copy/{source}/{target}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Copy node", notes = "Copy node")
 	@ResponseBody
-	public ResponseEntity<?> copyNode(@ApiParam(value = "Source drawer name") @PathVariable(value = "source", required = true) String sourceDrawerName, @ApiParam(value = "Target drawer name") @PathVariable(value = "target", required = true) String targetDrawerName, @ApiParam(value = "Source node id") @RequestParam(value = "sourceId", required = true) String sourceId, @ApiParam(value = "Target node id") @RequestParam(value = "targetId", required = false) String targetId, @ApiParam(value = "Generate date/time structure if asked") @RequestParam(value = "generateStruct", defaultValue = "false", required = false) boolean generateStruct, @ApiParam(value = "Generate node id if asked") @RequestParam(value = "generateId", defaultValue = "false", required = false) boolean generateId, @ApiParam(value = "Delete original") @RequestParam(value = "deleteOriginal", defaultValue = "false", required = false) boolean deleteOriginal) {
-
+	public ResponseEntity<?> copyNode(
+		@ApiParam(value = "Source drawer name") @PathVariable(value = "source", required = true) String sourceDrawerName,
+		@ApiParam(value = "Target drawer name") @PathVariable(value = "target", required = true) String targetDrawerName,
+		@ApiParam(value = "Source node id") @RequestParam(value = "sourceId", required = true) String sourceId,
+		@ApiParam(value = "Target node id") @RequestParam(value = "targetId", required = false) String targetId,
+		@ApiParam(value = "Generate date/time structure if asked") @RequestParam(value = "generateStruct", defaultValue = "false", required = false) boolean generateStruct,
+		@ApiParam(value = "Generate node id if asked") @RequestParam(value = "generateId", defaultValue = "false", required = false) boolean generateId,
+		@ApiParam(value = "Delete original") @RequestParam(value = "deleteOriginal", defaultValue = "false", required = false) boolean deleteOriginal
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_COPYNODE, sourceDrawerName);
 
 		try {
@@ -458,18 +576,29 @@ public class StorageController {
 			throw new ServiceException(String.format(MessageHelper.ERROR_OBJECT_ALREADY_EXISTS, objectId, name));
 	}
 
-	@PreAuthorize("!@authz.isSecured() or #oauth2.hasScope('storage.'.concat(#name)) or (#name == 'reporting') or (#name == principal)")
-	@RequestMapping(method = RequestMethod.PUT, value = "/node/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(
+		"!@authz.isSecured()"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.update'))"
+		+ " or #oauth2.hasScope('fdns.storage.'.concat(#name).concat('.*'))"
+		+ " or #oauth2.hasScope('fdns.storage.*.update')"
+		+ " or #oauth2.hasScope('fdns.storage.*.*')"
+	)
+	@RequestMapping(
+		method = RequestMethod.PUT,
+		value = "/node/{name}",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	@ApiOperation(value = "Update node", notes = "Update node")
 	@ResponseBody
-	public ResponseEntity<?> updateNode(@RequestParam("file") MultipartFile file, @ApiParam(value = "Drawer name") @PathVariable(value = "name") String name, @ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id) {
-
+	public ResponseEntity<?> updateNode(
+		@RequestParam("file") MultipartFile file,
+		@ApiParam(value = "Drawer name") @PathVariable(value = "name") String name,
+		@ApiParam(value = "Node id") @RequestParam(value = "id", required = true) String id
+	) {
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map<String, Object> log = MessageHelper.initializeLog(MessageHelper.METHOD_UPDATENODE, name);
 
 		try {
-
 			if (name == null || name.length() == 0)
 				throw new ServiceException(MessageHelper.ERROR_DRAWERNAME_REQUIRED);
 
