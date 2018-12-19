@@ -17,7 +17,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.boot.web.server.LocalServerPort;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
