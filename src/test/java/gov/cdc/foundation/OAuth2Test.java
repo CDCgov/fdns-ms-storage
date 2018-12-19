@@ -38,9 +38,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 @AutoConfigureMockMvc
 public class OAuth2Test {
 
-	@LocalServerPort
-	private int port;
-
 	@Autowired
 	private TestRestTemplate restTemplate;
 	private String baseUrlPath = "/api/1.0/";
