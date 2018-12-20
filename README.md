@@ -64,7 +64,7 @@ This microservice is designed to be used with other microservices. Please look a
 
 This microservice is configurable to be secured with an OAuth 2 provider.
 
-__Scopes__: This application uses the following scope: `storage.*`
+__Scopes__: This application uses the following scope: `fdns.storage.{drawer}.{create|read|update|delete}`. Example: `fdns.storage.mydrawer.read`
 
 Please see the following environment variables for configuring with your OAuth 2 provider:
 

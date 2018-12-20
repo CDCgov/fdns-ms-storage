@@ -45,7 +45,7 @@ import com.jayway.jsonpath.JsonPath;
 					"repo.host=http://minio:9000",
 					"repo.accessKey=minio",
 					"repo.secretKey=minio123",
-					"proxy.hostname=localhost",
+					"proxy.hostname=",
 					"security.oauth2.resource.user-info-uri=",
 					"security.oauth2.protected=",
 					"security.oauth2.client.client-id=",
